@@ -1,4 +1,4 @@
-import bent from 'bent'
+import bent, {ValidResponse} from 'bent'
 
 export async function promote(
   url: string,
@@ -8,8 +8,8 @@ export async function promote(
   tag: string,
   targetTag: string,
   copy: boolean
-): Promise<any> {
-  let payload: any = {
+): Promise<ValidResponse> {
+  const payload: Record<string, string | boolean> = {
     targetRepo,
     dockerRepository,
     copy
