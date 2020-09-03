@@ -1,11 +1,30 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Artifactory promote action'
+description: 'Promote a Docker image to an Artifactory repository'
+author: 'Brett Timperman'
 inputs:
-  milliseconds: # change this
+  url:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'artifactory server URL (i.e. https://example-artifactory.jfrog.io)'
+  sourceRepo:
+    required: true
+    description: 'the source repository to move or copy'
+  targetRepo:
+    required: true
+    description: 'the target repository to move or copy'
+  dockerRepository:
+    required: true
+    description: 'the docker repository name to promote'
+  tag:
+    required: false
+    description: 'the new tag that the image should have after being promoted if you want to'
+  targetTag:
+    required: false
+    description: 'an optional tag name to promote, if empty - the entire docker repository will be promoted'
+    default: 'latest'
+  copy:
+    required: true
+    description: 'when true, a copy of the image is promoted; when false, the image is moved to the target repository'
+    default: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

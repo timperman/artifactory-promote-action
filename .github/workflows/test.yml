@@ -17,8 +17,24 @@ jobs:
           npm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
+    services:
+      mockserver:
+        image: mockserver/mockserver
+        ports:
+          - 1080/tcp
+        volumes:
+          - mockserver.json:/config/initializerJson.json
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: promote
         with:
-          milliseconds: 1000
+          url: http://localhost:${{ job.services.mockserver.ports['1080'] }}
+          sourceRepo: docker-dev
+          targetRepo: docker-prod
+          dockerRepository: library/base
+          tag: main
+          targetTag: v1
+      - name: echo output variable
+        if: success() && steps.promote.outputs.image
+        run: echo "Promoted image ${{ steps.promote.outputs.image }}"

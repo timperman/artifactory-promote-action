@@ -1,16 +1,37 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {promote} from './promote'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const url: string = core.getInput('url')
+    const source: string = core.getInput('sourceRepo')
+    const targetRepo: string = core.getInput('targetRepo')
+    const dockerRepository: string = core.getInput('dockerRepository')
+    const tag: string = core.getInput('tag')
+    const targetTag: string = core.getInput('targetTag')
+    const copy: boolean = core.getInput('targetRepo') === 'true'
+    core.debug(`artifactory-promote-action
+==========================
+URL: ${url}
+Source repo: ${source}
+Target repo: ${targetRepo}
+Docker repository: ${dockerRepository}
+Tag: ${tag}
+Target tag: ${targetTag}
+Copy: ${copy}`)
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    await promote(
+      url,
+      source,
+      targetRepo,
+      dockerRepository,
+      tag,
+      targetTag,
+      copy
+    )
 
-    core.setOutput('time', new Date().toTimeString())
+    const promotedTag = targetTag ? `:${targetTag}` : tag ? `:${tag}` : ''
+    core.setOutput('image', `${dockerRepository}${promotedTag}`)
   } catch (error) {
     core.setFailed(error.message)
   }
