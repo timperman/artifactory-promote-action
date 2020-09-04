@@ -28,7 +28,7 @@ inputs:
     description: 'an optional tag name to promote, if empty - the entire docker repository will be promoted'
     default: 'latest'
   copy:
-    required: true
+    required: false
     description: 'when true, a copy of the image is promoted; when false, the image is moved to the target repository'
     default: 'true'
 runs:

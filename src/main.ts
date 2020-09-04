@@ -11,7 +11,7 @@ async function run(): Promise<void> {
     const dockerRepository: string = core.getInput('dockerRepository')
     const tag: string = core.getInput('tag')
     const targetTag: string = core.getInput('targetTag')
-    const copy: boolean = core.getInput('targetRepo') === 'true'
+    const copy: boolean = core.getInput('copy') === 'true'
     core.debug(`artifactory-promote-action
 ==========================
 URL: ${url}
