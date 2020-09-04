@@ -20,7 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: start mockserver
-        run: docker run -d --rm --name mockserver -p 1080:1080 -v $PWD/mockserver.json:/config/initializer.json -e MOCKSERVER_INITIALIZATION_JSON_PATH=/config/initializer.json mockserver/mockserver
+        run: |
+            docker run -d --rm --name mockserver -p 1080:1080 -v $PWD/mockserver.json:/config/initializer.json -e MOCKSERVER_INITIALIZATION_JSON_PATH=/config/initializer.json mockserver/mockserver
+            sleep 10
       - uses: ./
         id: promote
         with:
