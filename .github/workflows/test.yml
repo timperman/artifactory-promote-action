@@ -22,6 +22,8 @@ jobs:
         image: mockserver/mockserver
         ports:
           - 1080/tcp
+        env:
+          MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
         volumes:
           - mockserver.json:/config/initializerJson.json
     steps:

@@ -6,6 +6,7 @@
       "body": {
         "targetRepo": "docker-prod",
         "dockerRepository": "library/base",
+        "copy": false,
         "tag": "main",
         "targetTag": "v1"
       }
