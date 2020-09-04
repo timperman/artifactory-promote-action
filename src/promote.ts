@@ -26,6 +26,6 @@ export async function promote(
   const post = bent(url, 'POST', 'json')
   const auth = Buffer.from(`${username}:${password}`).toString('base64')
   return post(`/artifactory/api/docker/${source}/v2/promote`, payload, {
-    Authorization: auth
+    Authorization: `Basic ${auth}`
   })
 }
