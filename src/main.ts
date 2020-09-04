@@ -30,9 +30,13 @@ Copy: ${copy}`)
       copy
     )
 
-    const promotedTag = targetTag ? `:${targetTag}` : tag ? `:${tag}` : ''
+    const action = copy ? 'copied' : 'moved'
+    const sourceTag = tag ? `:${tag}` : ''
+    const promotedTag = targetTag ? `:${targetTag}` : sourceTag
+    core.info(`${action} image ${dockerRepository}${sourceTag} from ${source} to ${targetRepo} as ${dockerRepository}${promotedTag}`)
     core.setOutput('image', `${dockerRepository}${promotedTag}`)
   } catch (error) {
+    core.debug(`error: ${error}`)
     core.setFailed(error.message)
   }
 }
