@@ -1,8 +1,9 @@
 name: 'Artifactory promote action'
 description: 'Promote a Docker image to an Artifactory repository'
 author: 'Brett Timperman'
-icon: 'arrow-up'
-color: 'purple'
+branding:
+  icon: 'arrow-up'
+  color: 'purple'
 inputs:
   url:
     required: true
