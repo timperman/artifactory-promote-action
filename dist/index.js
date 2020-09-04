@@ -213,6 +213,8 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const url = core.getInput('url');
+            const username = core.getInput('username');
+            const password = core.getInput('password');
             const source = core.getInput('sourceRepo');
             const targetRepo = core.getInput('targetRepo');
             const dockerRepository = core.getInput('dockerRepository');
@@ -228,11 +230,15 @@ Docker repository: ${dockerRepository}
 Tag: ${tag}
 Target tag: ${targetTag}
 Copy: ${copy}`);
-            yield promote_1.promote(url, source, targetRepo, dockerRepository, tag, targetTag, copy);
-            const promotedTag = targetTag ? `:${targetTag}` : tag ? `:${tag}` : '';
+            yield promote_1.promote(url, username, password, source, targetRepo, dockerRepository, tag, targetTag, copy);
+            const action = copy ? 'copied' : 'moved';
+            const sourceTag = tag ? `:${tag}` : '';
+            const promotedTag = targetTag ? `:${targetTag}` : sourceTag;
+            core.info(`${action} image ${dockerRepository}${sourceTag} from ${source} to ${targetRepo} as ${dockerRepository}${promotedTag}`);
             core.setOutput('image', `${dockerRepository}${promotedTag}`);
         }
         catch (error) {
+            core.debug(`error: ${error}`);
             core.setFailed(error.message);
         }
     });
@@ -1018,7 +1024,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.promote = void 0;
 const bent_1 = __importDefault(__webpack_require__(113));
-function promote(url, source, targetRepo, dockerRepository, tag, targetTag, copy) {
+function promote(url, username, password, source, targetRepo, dockerRepository, tag, targetTag, copy) {
     return __awaiter(this, void 0, void 0, function* () {
         const payload = {
             targetRepo,
@@ -1032,7 +1038,8 @@ function promote(url, source, targetRepo, dockerRepository, tag, targetTag, copy
             payload.targetTag = targetTag;
         }
         const post = bent_1.default(url, 'POST', 'json');
-        return post(`/artifactory/api/docker/${source}/v2/promote`, payload);
+        const auth = Buffer.from(`${username}:${password}`).toString('base64');
+        return post(`/artifactory/api/docker/${source}/v2/promote`, payload, { 'Authorization': auth });
     });
 }
 exports.promote = promote;
