@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: start mockserver
-        run: docker run --rm --name mockserver -p 1080:1080 -v $PWD/mockserver.json:/config/initializer.json -e MOCKSERVER_INITIALIZATION_JSON_PATH=/config/initializer.json mockserver/mockserver
+        run: docker run -d --rm --name mockserver -p 1080:1080 -v $PWD/mockserver.json:/config/initializer.json -e MOCKSERVER_INITIALIZATION_JSON_PATH=/config/initializer.json mockserver/mockserver
       - uses: ./
         id: promote
         with:
@@ -35,4 +35,6 @@ jobs:
         run: echo "Promoted image ${{ steps.promote.outputs.image }}"
       - name: remove mockserver container
         if: always()
-        run: docker rm -f mockserver
+        run: |
+            docker logs mockserver
+            docker rm -f mockserver
