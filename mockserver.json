@@ -5,8 +5,10 @@
       "path": "/artifactory/api/docker/docker-dev/v2/promote"
     },
     "httpResponse": {
-      "statusCode": 200,
-      "body": {}
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": "{}"
     }
   }
 ]
