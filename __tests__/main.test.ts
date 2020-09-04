@@ -6,7 +6,9 @@ beforeEach(() => {
 })
 
 test('promote makes a call', async () => {
-  const artifactoryPromote = nock('https://artifactory.jfrog.io')
+  const artifactoryPromote = nock('https://artifactory.jfrog.io', {
+    reqheaders: {Authorization: 'Basic dXNlcjpwYXNzd29yZA=='}
+  })
     .post('/artifactory/api/docker/docker-dev/v2/promote', {
       targetRepo: 'docker-prod',
       dockerRepository: 'library/base-image',

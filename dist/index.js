@@ -220,7 +220,7 @@ function run() {
             const dockerRepository = core.getInput('dockerRepository');
             const tag = core.getInput('tag');
             const targetTag = core.getInput('targetTag');
-            const copy = core.getInput('targetRepo') === 'true';
+            const copy = core.getInput('copy') === 'true';
             core.debug(`artifactory-promote-action
 ==========================
 URL: ${url}
@@ -1039,7 +1039,9 @@ function promote(url, username, password, source, targetRepo, dockerRepository, 
         }
         const post = bent_1.default(url, 'POST', 'json');
         const auth = Buffer.from(`${username}:${password}`).toString('base64');
-        return post(`/artifactory/api/docker/${source}/v2/promote`, payload, { 'Authorization': auth });
+        return post(`/artifactory/api/docker/${source}/v2/promote`, payload, {
+            Authorization: `Basic ${auth}`
+        });
     });
 }
 exports.promote = promote;
