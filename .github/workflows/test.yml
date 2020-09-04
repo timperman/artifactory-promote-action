@@ -27,6 +27,8 @@ jobs:
         id: promote
         with:
           url: http://localhost:1080
+          username: user
+          password: password
           sourceRepo: docker-dev
           targetRepo: docker-prod
           dockerRepository: library/base
