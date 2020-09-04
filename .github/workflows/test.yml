@@ -17,21 +17,14 @@ jobs:
           npm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
-    services:
-      mockserver:
-        image: mockserver/mockserver
-        ports:
-          - 1080/tcp
-        env:
-          MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
-        volumes:
-          - mockserver.json:/config/initializerJson.json
     steps:
       - uses: actions/checkout@v2
+      - name: start mockserver
+        run: docker run --rm --name mockserver -p 1080:1080 -v $PWD/mockserver.json:/config/initializer.json -e MOCKSERVER_INITIALIZATION_JSON_PATH=/config/initializer.json mockserver/mockserver
       - uses: ./
         id: promote
         with:
-          url: http://localhost:${{ job.services.mockserver.ports['1080'] }}
+          url: http://localhost:1080
           sourceRepo: docker-dev
           targetRepo: docker-prod
           dockerRepository: library/base
@@ -40,8 +33,6 @@ jobs:
       - name: echo output variable
         if: success() && steps.promote.outputs.image
         run: echo "Promoted image ${{ steps.promote.outputs.image }}"
-      - name: troubleshoot service container
+      - name: remove mockserver container
         if: always()
-        run: |
-            docker logs ${{ job.services.mockserver.id }}
-            docker exec ${{ job.services.mockserver.id }} cat /config/initializerJson.json
+        run: docker rm -f mockserver

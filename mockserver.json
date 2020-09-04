@@ -2,14 +2,7 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/artifactory/api/docker/docker-dev/v2/promote",
-      "body": {
-        "targetRepo": "docker-prod",
-        "dockerRepository": "library/base",
-        "copy": false,
-        "tag": "main",
-        "targetTag": "v1"
-      }
+      "path": "/artifactory/api/docker/docker-dev/v2/promote"
     },
     "httpResponse": {
       "statusCode": 200,
