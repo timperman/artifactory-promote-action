@@ -5,10 +5,7 @@
       "path": "/artifactory/api/docker/docker-dev/v2/promote"
     },
     "httpResponse": {
-      "headers": {
-        "Content-Type": ["application/json"]
-      },
-      "body": "{}"
+      "body": "Promotion ended successfully"
     }
   }
 ]
