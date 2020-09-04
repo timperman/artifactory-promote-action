@@ -38,3 +38,6 @@ jobs:
       - name: echo output variable
         if: success() && steps.promote.outputs.image
         run: echo "Promoted image ${{ steps.promote.outputs.image }}"
+      - name: output service container logs
+        if: always()
+        run: docker logs ${{ job.services.mockserver.id }}
