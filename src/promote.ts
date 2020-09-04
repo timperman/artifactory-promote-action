@@ -2,6 +2,8 @@ import bent, {ValidResponse} from 'bent'
 
 export async function promote(
   url: string,
+  username: string,
+  password: string,
   source: string,
   targetRepo: string,
   dockerRepository: string,
@@ -22,5 +24,6 @@ export async function promote(
   }
 
   const post = bent(url, 'POST', 'json')
-  return post(`/artifactory/api/docker/${source}/v2/promote`, payload)
+  const auth = Buffer.from(`${username}:${password}`).toString('base64')
+  return post(`/artifactory/api/docker/${source}/v2/promote`, payload, { 'Authorization': auth })
 }

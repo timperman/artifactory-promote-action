@@ -19,6 +19,8 @@ test('promote makes a call', async () => {
 
   await promote(
     'https://artifactory.jfrog.io',
+    'user',
+    'password',
     'docker-dev',
     'docker-prod',
     'library/base-image',

@@ -4,6 +4,8 @@ import {promote} from './promote'
 async function run(): Promise<void> {
   try {
     const url: string = core.getInput('url')
+    const username: string = core.getInput('username')
+    const password: string = core.getInput('password')
     const source: string = core.getInput('sourceRepo')
     const targetRepo: string = core.getInput('targetRepo')
     const dockerRepository: string = core.getInput('dockerRepository')
@@ -22,6 +24,8 @@ Copy: ${copy}`)
 
     await promote(
       url,
+      username,
+      password,
       source,
       targetRepo,
       dockerRepository,

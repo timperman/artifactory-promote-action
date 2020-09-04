@@ -5,6 +5,12 @@ inputs:
   url:
     required: true
     description: 'artifactory server URL (i.e. https://example-artifactory.jfrog.io)'
+  username:
+    required: true
+    description: 'artifactory username'
+  password:
+    required: true
+    description: 'artifactory password'
   sourceRepo:
     required: true
     description: 'the source repository to move or copy'
