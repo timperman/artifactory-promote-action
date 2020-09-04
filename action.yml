@@ -24,7 +24,7 @@ inputs:
   copy:
     required: true
     description: 'when true, a copy of the image is promoted; when false, the image is moved to the target repository'
-    default: true
+    default: 'true'
 runs:
   using: 'node12'
   main: 'dist/index.js'
