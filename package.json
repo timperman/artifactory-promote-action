@@ -24,7 +24,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.5",
+    "@actions/core": "^1.2.6",
     "bent": "^7.3.10",
     "jest": "^26.4.2",
     "ts-jest": "^26.3.0"
